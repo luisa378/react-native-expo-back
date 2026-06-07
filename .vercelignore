@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env.local
+.env.*.local
+node_modules
+npm-debug.log
+yarn-error.log
+.DS_Store
+.next/cache
+.next/static
+docs/
+imagenes/
+sql/
+README.md
+*.md
+.vercelignore
+tsconfig.tsbuildinfo
