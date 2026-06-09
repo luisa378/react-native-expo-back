@@ -72,7 +72,12 @@ export function DELETE(request: Request, { params }: Params) {
   }
 
   return params
-    .then(({ id }) => query<{ id: string }>("DELETE FROM notes WHERE id = $1 RETURNING id", [id]))
+    .then(({ id }) =>
+      Promise.all([
+        query("DELETE FROM checklist_items WHERE note_id = $1", [id]),
+        query("DELETE FROM note_tags WHERE note_id = $1", [id])
+      ]).then(() => query<{ id: string }>("DELETE FROM notes WHERE id = $1 RETURNING id", [id]))
+    )
     .then((deleted) => {
       if (!deleted.length) {
         return jsonResponse({ error: "No encontrado" }, { status: 404 });
